@@ -1,0 +1,519 @@
+/* public/css/custom-dashboard.css */
+html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit; /* Tous les éléments héritent de html */
+  }
+:root {
+    --sidebar-bg: #0c528d;
+    --sidebar-link-color: #ffffff;
+    --sidebar-active-bg: #ffffff;
+    --sidebar-active-color: #195990;
+    --sidebar-link-hover-bg: rgba(255, 255, 255, 0.1);
+    --content-bg: #e9f5ff; /* Couleur de fond pour la zone sous la top-navbar */
+    --topnavbar-bg: #ffffff;
+    --topnavbar-border-color: #e0e6ed;
+    --topnavbar-text-color: #333;
+    --searchbar-bg: #f1f3f5;
+    --searchbar-placeholder-color: #8898aa;
+    --icon-button-color: #6c757d;
+    --avatar-circle-bg: var(--sidebar-bg); /* Utilise le bleu de la sidebar pour le cercle */
+    --avatar-circle-text: #ffffff;
+    --content-bg: #e0f2ff; /* Un bleu très clair pour le fond général de la zone de contenu */
+    --card-bg: #ffffff;    /* Fond blanc pour les cartes */
+    --card-header-bg: #f8f9fa; /* Un gris très clair pour l'en-tête de la carte, ou blanc si tu préfères */
+    --card-border-color: #dee2e6; /* Couleur de bordure pour la carte si besoin */
+    --card-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    /* ... autres variables ... */
+}
+
+body {
+    background-color: var(--content-bg);
+    font-family: 'Figtree', sans-serif;
+    margin: 0;
+    overflow-x: hidden; /* IMPORTANT: Empêche la barre de défilement horizontale sur body
+                           pendant que l'on s'assure que les enfants ne débordent pas.
+                           Tu pourras l'enlever si le problème est résolu au niveau des enfants. */
+}
+
+/* Enveloppe globale - optionnelle si sidebar est fixed et que body gère le fond */
+/* .app-layout {
+    display: flex;
+    min-height: 100vh;
+} */
+
+/* --- Sidebar --- */
+.sidebar {
+    width: 260px; /* *** DÉFINIR UNE LARGEUR FIXE *** */
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-link-color);
+    display: flex;
+    flex-direction: column;
+    position: fixed; /* *** POSITION FIXE *** */
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1030;
+    padding: 15px 10px;
+    box-sizing: border-box;
+}
+
+.sidebar-header {
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.sidebar-header .logo-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.logo-text {
+    color: var(--sidebar-link-color);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.sidebar .nav-links { /* Styles pour la liste <ul> des liens */
+    flex-grow: 1;
+    list-style: none;
+    padding: 5px;
+    margin: 0;
+    font-size: 0.9rem; /* Ajusté pour correspondre à l'image */
+
+}
+
+.sidebar .nav-links .nav-item { /* Styles pour les <li> */
+    margin-top: -1px;
+    margin-bottom: 5px;
+}
+
+.sidebar .nav-links .nav-link,
+.sidebar .sidebar-footer .nav-link { /* Styles pour les <a> */
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    color: var(--sidebar-link-color);
+    border-radius: 8px; /* Donne des coins légèrement arrondis. Pour effet "pill", augmenter à ex: 30px */
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    font-weight: 500;
+}
+
+.sidebar .nav-links .nav-link i,
+.sidebar .sidebar-footer .nav-link i { /* Styles pour les icônes <i> */
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+    font-size: 1.2em;
+    transition: color 0.2s ease;
+}
+
+.sidebar .nav-links .nav-link:not(.active):hover,
+.sidebar .sidebar-footer .nav-link:hover {
+    background-color: var(--sidebar-link-hover-bg);
+    border-radius: 15px;
+}
+
+.sidebar .nav-links .nav-link.active {
+    background-color: var(--sidebar-active-bg);
+    color: var(--sidebar-active-color);
+    font-weight: 600;
+    border-radius: 15px; /* Effet "pill" pour l'élément actif, comme sur l'image */
+}
+
+.sidebar .nav-links .nav-link.active i {
+    color: var(--sidebar-active-color);
+    border-radius: 15px;
+}
+
+.sidebar-footer {
+    padding-top: 15px;
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+.sidebar .sidebar-footer .nav-link {
+    margin-bottom: 5px;
+}
+
+
+/* --- Main Content Structure (DROITE DE LA SIDEBAR) --- */
+.main-content {
+    margin-left: 260px;
+    width: calc(100vw - 260px);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: var(--content-bg);
+    /* overflow: visible !important; */ /* À tester en dernier recours si tu soupçonnes un overflow caché */
+}
+
+/* --- Top Navbar --- */
+.top-navbar {
+    height: 70px;
+    width: 100%; /* 100% de la largeur de .main-content */
+    background-color: var(--topnavbar-bg);
+    border-bottom: 1px solid var(--topnavbar-border-color);
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* box-sizing: border-box; -- Hérité grâce à la règle globale */
+    flex-shrink: 0;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    /* gap: 0.8rem; -- Enlevé car on n'a plus l'avatar à côté du nom ici */
+    padding-left: 0.5rem; /* Ajoute un peu d'espace à gauche si besoin */
+}
+.user-info .user-avatar,
+.user-info .avatar-initials-topnav {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.user-info{
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+.user-info .avatar-initials-topnav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--sidebar-bg);
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+.user-info .user-name {
+    font-weight: 500; /* L'image "Admin" semble avoir un poids normal ou semi-gras */
+    font-size: 30px; /* Augmente la taille. Ajuste cette valeur (ex: 1rem, 1.1rem, 1.2rem) */
+    color: var(--topnavbar-text-color, #333); /* Couleur du texte */
+    /* Tu peux aussi ajouter un peu plus d'espacement si besoin après avoir augmenté la taille */
+    /* letter-spacing: 0.5px; */
+}
+
+.top-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.search-bar .search-icon {
+    position: absolute;
+    left: 0.9rem; /* Ajuste pour la position de la loupe */
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--searchbar-placeholder-color);
+    font-size: 0.9em; /* Taille de la loupe */
+}
+.search-bar .search-input {
+    border-radius: 25px; /* Très arrondi */
+    padding: 0.5rem 1rem 0.5rem 2.6rem; /* Padding : haut/bas, droite, gauche (pour l'icône) */
+    border: 1px solid #e9ecef; /* Bordure très subtile ou 'none' si tu préfères */
+    background-color: var(--searchbar-bg);
+    /* min-width: 200px; -- Ajuste si besoin, ou laisse le flex gérer */
+    font-size: 0.9rem;
+    line-height: 1.5; /* Pour un meilleur alignement vertical du texte */
+    color: #333; /* Couleur du texte tapé */
+}
+.search-bar .search-input::placeholder {
+    color: var(--searchbar-placeholder-color);
+    opacity: 1; /* Firefox peut rendre le placeholder plus transparent */
+}
+.search-bar .search-input:focus {
+    outline: none;
+    border-color: var(--sidebar-bg); /* Optionnel: bordure bleue au focus */
+    box-shadow: 0 0 0 0.2rem rgba(25, 89, 144, 0.25); /* Optionnel: ombre au focus style Bootstrap */
+}
+
+.top-nav-actions .icon-button,
+.top-nav-actions .profile-avatar-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--icon-button-color); /* Couleur par défaut pour les icônes */
+    background-color: transparent;
+    border: none;
+    padding: 0; /* Enlève le padding si les icônes/avatars ont leur propre taille */
+    cursor: pointer;
+}
+.top-nav-actions .icon-button i.fas.fa-bell {
+    font-size: 1.4rem; /* Taille de l'icône cloche */
+    /* padding: 0.3rem; -- Si tu veux une zone cliquable plus grande autour de l'icône */
+}
+.top-nav-actions .profile-avatar-trigger .profile-avatar-img { /* Si c'est une image */
+    width: 32px;   /* Taille du cercle avatar */
+    height: 32px;  /* Taille du cercle avatar */
+    border-radius: 50%;
+    object-fit: cover;
+}
+.top-nav-actions .icon-button {
+    font-size: 1.3rem;
+    color: var(--icon-button-color);
+    text-decoration: none;
+    padding: 0.3rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: transparent;
+}
+.top-nav-actions .icon-button:hover {
+    color: var(--sidebar-bg);
+}
+.top-nav-actions .profile-icon-button .profile-icon-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.top-navbar .dropdown-menu {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    margin-top: 0.6rem !important;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    position: absolute; /* Assure-toi que c'est bien appliqué */
+    z-index: 1050;
+}
+.top-navbar .dropdown-item {
+    color: #333;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+}
+.top-navbar .dropdown-item i.fas {
+    color: #6c757d;
+    margin-right: 0.8rem; /* Ajouté pour espacer l'icône du texte dans le dropdown */
+}
+.top-navbar .dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+
+/* --- Zone de contenu sous la top-navbar --- */
+.content-area {
+    flex-grow: 1;
+    padding: 1.5rem;
+    overflow-y: auto; /* Défilement vertical si besoin */
+    background-color: var(--content-bg);
+    width: 100%; /* 100% de la largeur de .main-content */
+    /* box-sizing: border-box; -- Hérité */
+}
+
+.top-navbar .dropdown { /* Le conteneur <div> du dropdown */
+    position: relative; /* Très important pour que .dropdown-menu se positionne par rapport à lui */
+}
+
+.top-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    flex-shrink: 0; /* Empêche ce groupe de rétrécir si l'espace manque un peu */
+}
+.top-nav-actions .profile-avatar-trigger .avatar-initials-circle { /* Si ce sont des initiales */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;   /* Taille du cercle avatar "A" */
+    height: 30px;  /* Taille du cercle avatar "A" */
+    border-radius: 50%;
+    background-color: var(--avatar-circle-bg); /* Bleu */
+    color: var(--avatar-circle-text); /* Blanc */
+    font-weight: 600; /* Ou 500 */
+    font-size: 0.9rem; /* Taille de la lettre "A" */
+    line-height: 1;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.top-nav-actions .profile-avatar-trigger.dropdown-toggle::after {
+    display: none;
+}
+
+/* Dans custom-dashboard.css */
+
+/* Assure un bon alignement vertical dans les cellules de la table */
+.table td, .table th {
+    vertical-align: middle;
+}
+
+/* Style pour les icônes d'action pour qu'elles soient bien espacées et de taille cohérente */
+.table .btn-sm i {
+    font-size: 0.85rem; /* Ajuste la taille des icônes dans les boutons */
+}
+.table .btn-sm {
+    padding: 0.2rem 0.4rem; /* Réduit un peu le padding des boutons sm */
+}
+
+/* Style pour le header de la carte (card-header) */
+.card-header { /* Bootstrap .card-header */
+    background-color: var(--card-header-bg); /* Fond pour l'en-tête de la carte */
+    /* padding: 0.75rem 1.25rem; -- Bootstrap le fait déjà */
+    /* border-bottom: 1px solid var(--card-border-color); -- Bootstrap le fait déjà */
+    /* Tu as déjà des styles pour les éléments à l'intérieur (d-flex, etc.) */
+}
+
+.card { /* Bootstrap .card */
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border-color); /* Bordure subtile pour la carte */
+    /* border-radius: 0.375rem; -- Bootstrap le fait déjà */
+    /* box-shadow: var(--card-shadow); -- Tu utilises .shadow-sm, ce qui est bien */
+    margin-bottom: 1.5rem; /* Espace en bas si tu as plusieurs cartes */
+}
+.card-body { /* Bootstrap .card-body */
+    /* padding: 1.25rem; -- Bootstrap le fait déjà. Tu as p-0 pour la table. */
+}
+.card-header .btn-group .btn,
+.card-header > div > .btn { /* Cible les boutons directement dans les div du card-header */
+    font-size: 0.85rem; /* Rend les boutons un peu plus petits */
+    padding: 0.3rem 0.75rem;
+}
+.card-header.bg-light { /* Pour surcharger le .bg-light de Bootstrap si besoin */
+    background-color: var(--card-header-bg) !important; /* Assure-toi que ta variable est utilisée */
+}
+/* Spécifique pour le dropdown de classe s'il est trop grand */
+.card-header .btn-group .dropdown-toggle {
+    /* max-width: 180px; */ /* Optionnel: limite la largeur si les noms de classe sont longs */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+    /* white-space: nowrap; */
+}
+.card .card-body .form-label {
+    font-weight: 600; /* Ou 'bold' pour encore plus gras, ou 500 pour semi-gras */
+    /* Tu peux aussi ajuster la couleur si besoin */
+    /* color: #333; */
+}
+.card .card-body fieldset .form-label {
+    font-weight: 600; /* Ou la valeur désirée */
+}
+
+/* Pour l'icône de tri à côté de "Stagiaires" */
+.table th i.fa-sort {
+    opacity: 0.5;
+    transition: opacity 0.2s ease-in-out;
+}
+.table th:hover i.fa-sort {
+    opacity: 1;
+}
+
+/* Pour que la pagination soit bien stylée avec Bootstrap 5 par défaut */
+.pagination {
+    justify-content: center; /* Centre la pagination */
+    margin-bottom: 0; /* Enlève la marge par défaut de la pagination si elle est dans le card-footer */
+}
+
+.sidebar .nav-item.dropdown .dropdown-toggle::after {
+    display: none; /* Cache la flèche par défaut de Bootstrap si on utilise notre propre icône */
+}
+
+.sidebar .nav-item.dropdown .icon-dropdown-caret {
+    margin-left: auto; /* Pousse la petite flèche à droite */
+    transition: transform 0.2s ease-in-out;
+}
+
+.sidebar .nav-item.dropdown .dropdown-toggle[aria-expanded="true"] .icon-dropdown-caret {
+    transform: rotate(180deg);
+}
+
+/* Style pour le menu déroulant dans la sidebar */
+.sidebar-dropdown-menu {
+    background-color: var(--sidebar-bg); /* Ou une couleur légèrement différente */
+    border: none; /* Ou une bordure subtile si tu préfères */
+    /* box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15); */ /* Ombre si besoin */
+    width: 100%; /* Prend toute la largeur du li parent */
+    margin-top: 0.25rem !important; /* Petit espace */
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.sidebar-dropdown-menu .dropdown-item {
+    color: var(--sidebar-link-color);
+    padding: 0.5rem 1.2rem; /* Même padding que les nav-link normaux */
+    font-size: 0.85rem; /* Un peu plus petit si tu veux */
+    border-radius: 6px; /* Coins arrondis pour les items */
+}
+
+.sidebar-dropdown-menu .dropdown-item:hover,
+.sidebar-dropdown-menu .dropdown-item:focus {
+    background-color: var(--sidebar-link-hover-bg);
+    color: var(--sidebar-link-color);
+}
+
+.sidebar-dropdown-menu .dropdown-item.active {
+    background-color: var(--sidebar-active-bg);
+    color: var(--sidebar-active-color) !important; /* Force la couleur du texte actif */
+}
+
+.sidebar-dropdown-menu .dropdown-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Si le parent est actif, on peut vouloir le styler différemment */
+.sidebar .nav-link.active-parent {
+    background-color: var(--sidebar-link-hover-bg); /* Ou un autre style pour indiquer qu'un enfant est actif */
+}
+
+.sidebar .nav-item .nav-link > span { /* Cible la span qui contient l'icône et le texte */
+    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+    overflow: hidden;      /* Cache le texte qui dépasse si la sidebar est trop étroite */
+    text-overflow: ellipsis; /* Ajoute "..." si le texte dépasse */
+    margin-right: 5px; /* Ajoute un petit espace avant la flèche du dropdown */
+}
+
+.sidebar .nav-item .nav-link i.fa-fw { /* Cible les icônes Font Awesome à largeur fixe */
+    width: 18px;       /* Réduire la largeur réservée à l'icône (si c'était 20px) */
+    margin-right: 8px; /* Réduire la marge à droite de l'icône (si c'était 12px) */
+}
+
+.sidebar .nav-item .nav-link > span:first-child {
+    display: inline-flex; /* Pour que l'icône et le texte soient sur la même ligne à l'intérieur de la span */
+    align-items: center;
+    white-space: nowrap;     /* Empêche le texte de passer à la ligne */
+    overflow: hidden;          /* Cache le texte qui dépasse */
+    text-overflow: ellipsis;   /* Ajoute "..." si le texte est trop long pour la span */
+    flex-grow: 1; /* Permet à cette partie de prendre l'espace disponible */
+    margin-right: 0px; /* Espace avant la flèche du collapse/dropdown */
+}
+.sidebar .nav-item .nav-link .icon-collapse-caret,
+.sidebar .nav-item .nav-link .icon-dropdown-caret {
+    margin-left: auto; /* Assure qu'elle est poussée à droite (si pas déjà fait par justify-content-between) */
+    flex-shrink: 0; /* Empêche la flèche de rétrécir */
+}
+
+/* --- HIDE SIDEBAR SCROLLBAR --- */
+.sidebar {
+  /* For Firefox */
+  scrollbar-width: none;
+  
+  /* For Internet Explorer and older Edge */
+  -ms-overflow-style: none;
+}
+
+.sidebar::-webkit-scrollbar {
+  /* For Chrome, Safari, and other Webkit browsers */
+  display: none;
+}
